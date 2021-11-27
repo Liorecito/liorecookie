@@ -2194,8 +2194,6 @@ AutoPlay.autoPlayer = setInterval(AutoPlay.run, 300); // 100 is too quick
 AutoPlay.findNextAchievement();
 l('versionNumber').innerHTML=
   'v. '+Game.version;
-l('versionNumber').innerHTML='v. '+Game.version+' <span '+
-  Game.getDynamicTooltip('AutoPlay.whatTheBotIsDoing','this')+
-  ">(with autoplay v."+AutoPlay.version+")"+'</span>';
+l('versionNumber').innerHTML='v. '+Game.version;
 if (Game.version!=AutoPlay.gameVersion)
   AutoPlay.info("Liorecito ha sido testeado para la versión de cookie clicker " + AutoPlay.gameVersion);

@@ -82,7 +82,7 @@ AutoPlay.run = function() {
   if (AutoPlay.now<AutoPlay.deadline) return;  // end of speed activity
   // run only once a minute from here
   if (Game.bakeryNameL.textContent.slice(0,AutoPlay.robotName.length)!=AutoPlay.robotName) {
-    Game.bakeryNameL.textContent = AutoPlay.robotName+Game.bakeryNameL.textContent;
+    Game.bakeryNameL.textContent = "El mundo galletas de " + AutoPlay.robotName;
   } // write the robot name in front of the bakery name
   AutoPlay.activities = AutoPlay.mainActivity;
   AutoPlay.status(false);

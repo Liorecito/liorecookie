@@ -1,45 +1,45 @@
 //BOT con distintas opciones para jugar Cookie Clicker de manera más eficiente
 
-var lioreBOT;
-if (!lioreBOT) lioreBOT = {};
-lioreBOT.version = "2.042";
-lioreBOT.gameVersion = "2.042";
+var LioreBOT;
+if (!LioreBOT) LioreBOT = {};
+LioreBOT.version = "2.042";
+LioreBOT.gameVersion = "2.042";
 
 // Aquí empieza el bot
-lioreBOT.botName = "Liorecito";
-lioreBOT.deadline = 0;
+LioreBOT.botName = "Liorecito";
+LioreBOT.deadline = 0;
 
-lioreBOT.run = function() 
+LioreBOT.run = function() 
 {
-  lioreBOT.now=Date.now();
+  LioreBOT.now=Date.now();
 
-  if (Game.bakeryNameL.textContent.slice(0,lioreBOT.botName.length) != lioreBOT.botName) 
+  if (Game.bakeryNameL.textContent.slice(0,LioreBOT.botName.length) != LioreBOT.botName) 
   {
-    Game.bakeryNameL.textContent = "El mundo galletas de " + lioreBOT.botName;
+    Game.bakeryNameL.textContent = "El mundo galletas de " + LioreBOT.botName;
   } //Sobreescribe el nombre de la confitería por el nombre del bot
 
-  lioreBOT.deadline = lioreBOT.now + 60000; //Un minuto antes de ejecutar el siguiente paso
-  lioreBOT.setDeadline(lioreBOT.now + (lioreBOT.now-Game.startDate) / 10);
+  LioreBOT.deadline = LioreBOT.now + 60000; //Un minuto antes de ejecutar el siguiente paso
+  LioreBOT.setDeadline(LioreBOT.now + (LioreBOT.now-Game.startDate) / 10);
 
   //Ejecución de funciones
-  lioreBOT.manejoClics();
-  lioreBOT.galletasDoradas();
-  lioreBOT.logrosFaciles();
-  lioreBOT.manejarNotas();
+  LioreBOT.manejoClics();
+  LioreBOT.galletasDoradas();
+  LioreBOT.logrosFaciles();
+  LioreBOT.manejarNotas();
 
 }
 
 
 //===================== Galletas doradas ==========================
-lioreBOT.galletasDoradas = function()
+LioreBOT.galletasDoradas = function()
 {
-  if (lioreBOT.Config.GoldenClickMode==0) return;
+  if (LioreBOT.Config.GoldenClickMode==0) return;
 
   if (Game.TickerEffect) Game.tickerL.click(); //Recoger galleta de la fortuna
 
   var s = Game.shimmers[sx];
 
-  if (lioreBOT.Config.GoldenClickMode==1) 
+  if (LioreBOT.Config.GoldenClickMode==1) 
    { 
     s.pop();
    }
@@ -59,13 +59,13 @@ lioreBOT.galletasDoradas = function()
 }
 
 //===================== Clics y velocidad de clics ==========================
-lioreBOT.manejoClics = function ()
+LioreBOT.manejoClics = function ()
 {
-  if (lioreBOT.Config.ClickMode==0) return;
+  if (LioreBOT.Config.ClickMode==0) return;
 
-  if (lioreBOT.Config.ClickMode>1) 
+  if (LioreBOT.Config.ClickMode>1) 
   {
-    for (var i = 1; i<10; i++) setTimeout(lioreBOT.speedClicking, 30*i);
+    for (var i = 1; i<10; i++) setTimeout(LioreBOT.speedClicking, 30*i);
   } 
   else //ModoClic == 1
   {
@@ -74,14 +74,14 @@ lioreBOT.manejoClics = function ()
 
 }
 
-lioreBOT.speedClicking = function() {
+LioreBOT.speedClicking = function() {
   Game.ClickCookie();
-  var clickCount = 1 << (10 * (lioreBOT.Config.ClickMode-2));
+  var clickCount = 1 << (10 * (LioreBOT.Config.ClickMode-2));
   Game.ClickCookie(0, clickCount * Game.computedMouseCps);
 }
 
 //===================== Pequeños logros ==========================
-lioreBOT.logrosFaciles = function() 
+LioreBOT.logrosFaciles = function() 
 {
   if (!Game.Achievements["Cheated cookies taste awful"].won) 
   {
@@ -95,7 +95,7 @@ lioreBOT.logrosFaciles = function()
 
   if (!Game.Achievements["Olden days"].won)
   {
-    lioreBOT.info("Se encontró la magdalena olvidada al fondo del menú de \"Info\"");
+    LioreBOT.info("Se encontró la magdalena olvidada al fondo del menú de \"Info\"");
     Game.Win("Olden days"); //Otorga logro de clickear la magdalena del menú info
   }
 
@@ -103,74 +103,74 @@ lioreBOT.logrosFaciles = function()
 
 
 //===================== Menu ==========================
-if(!lioreBOT.Backup) lioreBOT.Backup = {};
-lioreBOT.Config = {};
-lioreBOT.ConfigData = {};
-lioreBOT.Disp = {};
+if(!LioreBOT.Backup) LioreBOT.Backup = {};
+LioreBOT.Config = {};
+LioreBOT.ConfigData = {};
+LioreBOT.Disp = {};
 
-lioreBOT.ConfigPrefix = 'autoplayConfig';
+LioreBOT.ConfigPrefix = 'autoplayConfig';
 
-lioreBOT.SaveConfig = function(config) {
+LioreBOT.SaveConfig = function(config) {
   try {
-    window.localStorage.setItem(lioreBOT.ConfigPrefix, JSON.stringify(config));
+    window.localStorage.setItem(LioreBOT.ConfigPrefix, JSON.stringify(config));
   } catch (e) {}
 }
 
-lioreBOT.LoadConfig = function() {
+LioreBOT.LoadConfig = function() {
   try {
-    if (window.localStorage.getItem(lioreBOT.ConfigPrefix) != null) {
-      lioreBOT.Config = JSON.parse(window.localStorage.getItem(lioreBOT.ConfigPrefix));
+    if (window.localStorage.getItem(LioreBOT.ConfigPrefix) != null) {
+      LioreBOT.Config = JSON.parse(window.localStorage.getItem(LioreBOT.ConfigPrefix));
      // Comprobar valores
       var mod = false;
-      for (var i in lioreBOT.ConfigDefault) {
-        if (typeof lioreBOT.Config[i]==='undefined' || lioreBOT.Config[i]<0 ||
-            lioreBOT.Config[i]>=lioreBOT.ConfigData[i].label.length) {
+      for (var i in LioreBOT.ConfigDefault) {
+        if (typeof LioreBOT.Config[i]==='undefined' || LioreBOT.Config[i]<0 ||
+            LioreBOT.Config[i]>=LioreBOT.ConfigData[i].label.length) {
           mod = true;
-          lioreBOT.Config[i] = lioreBOT.ConfigDefault[i];
+          LioreBOT.Config[i] = LioreBOT.ConfigDefault[i];
         }
       }
-      if (mod) lioreBOT.SaveConfig(lioreBOT.Config);
+      if (mod) LioreBOT.SaveConfig(LioreBOT.Config);
     } else { // Valores por defecto
-      lioreBOT.RestoreDefault();
+      LioreBOT.RestoreDefault();
     }
   } catch (e) {}
 }
 
-lioreBOT.RestoreDefault = function() {
-  lioreBOT.Config = {};
-  lioreBOT.SaveConfig(lioreBOT.ConfigDefault);
-  lioreBOT.LoadConfig();
+LioreBOT.RestoreDefault = function() {
+  LioreBOT.Config = {};
+  LioreBOT.SaveConfig(LioreBOT.ConfigDefault);
+  LioreBOT.LoadConfig();
   Game.UpdateMenu();
 }
 
-lioreBOT.ToggleConfig = function(config) {
-  lioreBOT.ToggleConfigUp(config);
-  l(lioreBOT.ConfigPrefix + config).className =
-    lioreBOT.Config[config]?'option':'option off';
+LioreBOT.ToggleConfig = function(config) {
+  LioreBOT.ToggleConfigUp(config);
+  l(LioreBOT.ConfigPrefix + config).className =
+    LioreBOT.Config[config]?'option':'option off';
 }
 
-lioreBOT.ToggleConfigUp = function(config) {
-  lioreBOT.Config[config]++;
-  if (lioreBOT.Config[config]==lioreBOT.ConfigData[config].label.length)
-    lioreBOT.Config[config] = 0;
-  l(lioreBOT.ConfigPrefix + config).innerHTML = lioreBOT.Disp.GetConfigDisplay(config);
-  lioreBOT.SaveConfig(lioreBOT.Config);
+LioreBOT.ToggleConfigUp = function(config) {
+  LioreBOT.Config[config]++;
+  if (LioreBOT.Config[config]==LioreBOT.ConfigData[config].label.length)
+    LioreBOT.Config[config] = 0;
+  l(LioreBOT.ConfigPrefix + config).innerHTML = LioreBOT.Disp.GetConfigDisplay(config);
+  LioreBOT.SaveConfig(LioreBOT.Config);
 }
 
-lioreBOT.ConfigData.ClickMode =
+LioreBOT.ConfigData.ClickMode =
   {label: ['Desactivado', 'Normal', 'Rápidos'], desc: 'Velocidad de Clics'};
-lioreBOT.ConfigData.GoldenClickMode =
+LioreBOT.ConfigData.GoldenClickMode =
   {label: ['Recoger algunas', 'Recoger todas'], desc: 'Recoger galletas doradas'};
 
-lioreBOT.ConfigDefault = {ClickMode: 1, GoldenClickMode: 1};
+LioreBOT.ConfigDefault = {ClickMode: 1, GoldenClickMode: 1};
 
-lioreBOT.LoadConfig();
+LioreBOT.LoadConfig();
 
-lioreBOT.Disp.GetConfigDisplay = function(config) {
-  return lioreBOT.ConfigData[config].label[lioreBOT.Config[config]];
+LioreBOT.Disp.GetConfigDisplay = function(config) {
+  return LioreBOT.ConfigData[config].label[LioreBOT.Config[config]];
 }
 
-lioreBOT.Disp.AddMenuPref = function() {
+LioreBOT.Disp.AddMenuPref = function() {
   var header = function(text) {
     var div = document.createElement('div');
     div.className = 'listing';
@@ -183,7 +183,7 @@ lioreBOT.Disp.AddMenuPref = function() {
   }
   var frag = document.createDocumentFragment();
   var div = document.createElement('div');
-  div.className = 'title ' + lioreBOT.Disp.colorTextPre + lioreBOT.Disp.colorBlue;
+  div.className = 'title ' + LioreBOT.Disp.colorTextPre + LioreBOT.Disp.colorBlue;
   div.textContent = 'Configuración de Liorecito';
   frag.appendChild(div);
   var listing = function(config,clickFunc) {
@@ -191,14 +191,14 @@ lioreBOT.Disp.AddMenuPref = function() {
     div.className = 'listing';
     var a = document.createElement('a');
     a.className = 'option';
-    if (lioreBOT.Config[config] == 0) a.className = 'option off';
-    a.id = lioreBOT.ConfigPrefix + config;
-    a.onclick = function() { lioreBOT.ToggleConfig(config); };
+    if (LioreBOT.Config[config] == 0) a.className = 'option off';
+    a.id = LioreBOT.ConfigPrefix + config;
+    a.onclick = function() { LioreBOT.ToggleConfig(config); };
     if (clickFunc) a.onclick = clickFunc;
-    a.textContent = lioreBOT.Disp.GetConfigDisplay(config);
+    a.textContent = LioreBOT.Disp.GetConfigDisplay(config);
     div.appendChild(a);
     var label = document.createElement('label');
-    label.textContent = lioreBOT.ConfigData[config].desc;
+    label.textContent = LioreBOT.ConfigData[config].desc;
     div.appendChild(label);
     return div;
   }
@@ -212,25 +212,25 @@ lioreBOT.Disp.AddMenuPref = function() {
       childNodes[l('menu').childNodes[2].childNodes.length - 1]);
 }
 
-if (!lioreBOT.Backup.UpdateMenu) lioreBOT.Backup.UpdateMenu = Game.UpdateMenu;
+if (!LioreBOT.Backup.UpdateMenu) LioreBOT.Backup.UpdateMenu = Game.UpdateMenu;
 
 Game.UpdateMenu = function() {
-  lioreBOT.Backup.UpdateMenu();
-  if (Game.onMenu == 'prefs') lioreBOT.Disp.AddMenuPref();
+  LioreBOT.Backup.UpdateMenu();
+  if (Game.onMenu == 'prefs') LioreBOT.Disp.AddMenuPref();
 }
 
 //===================== Auxiliares ==========================
 
-lioreBOT.info = function(s) {
+LioreBOT.info = function(s) {
   console.log("### "+s);
   Game.Notify("Liorecito BOT",s,1,100);
 }
 
-lioreBOT.setDeadline = function(d) {
-  if (lioreBOT.deadline>d) lioreBOT.deadline=d;
+LioreBOT.setDeadline = function(d) {
+  if (LioreBOT.deadline>d) LioreBOT.deadline=d;
 }
 
-lioreBOT.manejarNotas = function() {
+LioreBOT.manejarNotas = function() {
   for (var i in Game.Notes)
     if (Game.Notes[i].quick==0) {
       Game.Notes[i].life=2000*Game.fps;
@@ -244,21 +244,21 @@ function range(start, end) {
   return foo;
 }
 
-lioreBOT.addActivity = function(str) {
-  if (!lioreBOT.activities.includes(str)) {
-    lioreBOT.activities+= '<div class="line"></div>'+str;
+LioreBOT.addActivity = function(str) {
+  if (!LioreBOT.activities.includes(str)) {
+    LioreBOT.activities+= '<div class="line"></div>'+str;
     return true;
   } else return false;
 }
 
 //===================== Init & Start ==========================
 
-if (lioreBOT.autoPlayer) {
-  lioreBOT.info("Reemplazando versión");
-  clearInterval(lioreBOT.autoPlayer);
+if (LioreBOT.autoPlayer) {
+  LioreBOT.info("Reemplazando versión");
+  clearInterval(LioreBOT.autoPlayer);
 }
-lioreBOT.autoPlayer = setInterval(lioreBOT.run, 300); // 100 is too quick
+LioreBOT.autoPlayer = setInterval(LioreBOT.run, 300); // 100 is too quick
 l('versionNumber').innerHTML= 'v'+ Game.version;
 
-if (Game.version != lioreBOT.gameVersion)
-  lioreBOT.info("Liorecito ha sido testeado para la versión de cookie clicker " + lioreBOT.gameVersion);
+if (Game.version != LioreBOT.gameVersion)
+  LioreBOT.info("Liorecito ha sido testeado para la versión de cookie clicker " + LioreBOT.gameVersion);
